@@ -15,7 +15,6 @@ public class UserController {
 
     @GetMapping("/details")
     public ResponseEntity<?> getUserDetails() {
-        System.out.println("Entro al getUserDetails");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
