@@ -22,13 +22,13 @@
         com.frank
     </groupId>
     <artifactId>
-        AuthAPIREST
+        JWT_Auth_API
     </artifactId>
     <version>
         1.0
     </version>
     <name>
-        AuthAPIREST
+        JWT_Auth_API
     </name>
     <description>
         Apirest
