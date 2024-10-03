@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UsuarioService extends UserDetailsService {
 
-    public Usuario findByEmail(String username);
+    Usuario findByEmail(String username);
 
-    public Usuario guardarUsuario(UsuarioDTO registroDTO);
+    Usuario guardarUsuario(UsuarioDTO registroDTO);
 
-    public boolean eliminarUsuario(Integer id);
+    boolean eliminarUsuario(Integer id);
 }

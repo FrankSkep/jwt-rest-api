@@ -1,9 +1,9 @@
 package app.AuthAPIREST.Controllers;
 
-import app.AuthAPIREST.Models.JwtResponse;
+import app.AuthAPIREST.DTO.JwtResponse;
 import app.AuthAPIREST.Configuration.JwtTokenUtil;
-import app.AuthAPIREST.Models.LoginRequest;
-import app.AuthAPIREST.Models.MessageResponse;
+import app.AuthAPIREST.DTO.LoginRequest;
+import app.AuthAPIREST.DTO.MessageResponse;
 import app.AuthAPIREST.DTO.UsuarioDTO;
 import app.AuthAPIREST.Service.UsuarioService;
 import jakarta.validation.Valid;
@@ -25,14 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
     private UsuarioService usuarioServicio;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    public AuthController(UsuarioService usuarioServicio, AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil) {
+        this.usuarioServicio = usuarioServicio;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     // Maneja el registro de usuario
     @PostMapping("/register")
@@ -40,7 +42,8 @@ public class AuthController {
         try {
             usuarioServicio.guardarUsuario(regDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Usuario registrado exitosamente"));
-        } catch (IllegalArgumentException e) {
+        } catch (
+                IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(e.getMessage()));
         }
     }
@@ -49,21 +52,18 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            // Autentica al usuario
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // Obtiene detalles del usuario
             UserDetails userDetails = usuarioServicio.loadUserByUsername(loginRequest.getEmail());
 
-            // Genera el token JWT
             String token = jwtTokenUtil.generateToken(userDetails);
 
-            // Retorna la respuesta con el token
             return ResponseEntity.ok(new JwtResponse(token));
-        } catch (BadCredentialsException e) {
+        } catch (
+                BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Usuario o contraseña incorrectos"));
         }
     }

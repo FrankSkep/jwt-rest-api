@@ -1,6 +1,6 @@
 package app.AuthAPIREST.Controllers;
 
-import app.AuthAPIREST.Models.MessageResponse;
+import app.AuthAPIREST.DTO.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

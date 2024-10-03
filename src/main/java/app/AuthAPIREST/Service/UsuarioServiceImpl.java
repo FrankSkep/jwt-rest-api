@@ -17,7 +17,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository userRepo;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    // Inyección de dependencias a través del constructor
     @Autowired
     public UsuarioServiceImpl(UsuarioRepository userRepo, BCryptPasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
