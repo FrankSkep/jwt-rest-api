@@ -1,11 +1,11 @@
-package app.AuthAPIREST;
+package jwtapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JWT_Auth {
+public class JwtApplication {
     public static void main(String[] args) {
-        SpringApplication.run(JWT_Auth.class, args);
+        SpringApplication.run(JwtApplication.class, args);
     }
 }
