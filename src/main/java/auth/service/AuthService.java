@@ -1,14 +1,13 @@
-package jwtapi.service;
+package auth.service;
 
-import jwtapi.dto.AuthResponse;
-import jwtapi.dto.LoginRequest;
-import jwtapi.dto.RegisterRequest;
-import jwtapi.entity.Role;
-import jwtapi.entity.User;
-import jwtapi.repository.UserRepository;
-import jwtapi.exception.AuthenticationException;
-import jwtapi.exception.InvalidUserRegistrationException;
-import jwtapi.jwt.JwtService;
+import auth.dto.AuthResponse;
+import auth.dto.LoginRequest;
+import auth.dto.RegisterRequest;
+import auth.entity.Role;
+import auth.entity.User;
+import auth.repository.UserRepository;
+import auth.exception.AuthenticationException;
+import auth.jwt.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,9 +59,5 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(jwtService.getToken(user))
                 .build();
-    }
-
-    public void delete(String username) {
-        userRepository.deleteByUsername(username);
     }
 }

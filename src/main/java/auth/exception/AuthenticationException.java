@@ -1,4 +1,4 @@
-package jwtapi.exception;
+package auth.exception;
 
 public class AuthenticationException extends RuntimeException {
     public AuthenticationException(String message) {

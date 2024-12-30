@@ -1,30 +1,30 @@
-# JwtAuthAPI
+# Jwt Auth API
 
-JwtAuthAPI es una API de autenticación basada en JWT (JSON Web Tokens) construida con Spring Boot.
+JwtAuthAPI is an authentication API based on JWT (JSON Web Tokens) built with Spring Boot.
 
-## Requisitos
+## Requirements
 
-- Java 17 o superior
+- Java 17 or higher
 - Maven
-- MySQL (o cualquier otra base de datos compatible)
+- MySQL (or any other compatible database)
 
-## Configuración
+## Configuration
 
-1. Clona el repositorio:
+1. Clone the repository:
     ```sh
     git clone https://github.com/FrankSkep/jwt-auth-api
     cd jwt-auth-api
     ```
 
-2. Crea un archivo `.env` en `src/main/resources` con las siguientes variables de entorno:
+2. Create a `.env` file in `src/main/resources` with the following environment variables:
     ```ini
-    DB_URL=jdbc:mysql://localhost:3306/tu_base_de_datos
-    DB_USERNAME=tu_usuario
-    DB_PASSWORD=tu_contraseña
-    JWT_SECRET_KEY=tu_clave_secreta
+    DB_URL=jdbc:mysql://localhost:3306/your_database
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    JWT_SECRET_KEY=your_secret_key
     ```
 
-3. Compila y ejecuta la aplicación:
+3. Build and run the application:
     ```sh
     mvn clean install
     mvn spring-boot:run
@@ -32,67 +32,99 @@ JwtAuthAPI es una API de autenticación basada en JWT (JSON Web Tokens) construi
 
 ## Endpoints
 
-### Registro de Usuario
+### User Registration
 
 - **URL:** `/api/auth/register`
-- **Método:** `POST`
-- **Cuerpo de la Solicitud:**
+- **Method:** `POST`
+- **Request Body:**
     ```json
     {
-        "username": "usuario",
-        "password": "contraseña",
-        "firstname": "nombre",
-        "lastname": "apellido",
-        "country": "país"
+        "username": "username",
+        "password": "password",
+        "firstname": "firstname",
+        "lastname": "lastname",
+        "country": "country"
     }
     ```
-- **Respuesta Exitosa:**
+- **Successful Response:**
     ```json
     {
         "token": "jwt_token"
     }
     ```
 
-### Inicio de Sesión
+### Login
 
 - **URL:** `/api/auth/login`
-- **Método:** `POST`
-- **Cuerpo de la Solicitud:**
+- **Method:** `POST`
+- **Request Body:**
     ```json
     {
-        "username": "usuario",
-        "password": "contraseña"
+        "username": "username",
+        "password": "password"
     }
     ```
-- **Respuesta Exitosa:**
+- **Successful Response:**
     ```json
     {
         "token": "jwt_token"
     }
     ```
 
-### Eliminar Usuario
+### Update User
 
-- **URL:** `/api/auth/delete/{username}`
+- **URL:** `/api/users`
+- **Method:** `PUT`
+- **Request Body:**
+    ```json
+    {
+        "username": "new_username",
+        "firstname": "new_firstname",
+        "lastname": "new_lastname",
+        "country": "new_country"
+    }
+    ```
+- **Successful Response:**
+    ```json
+    {
+        "message": "Data updated successfully."
+    }
+    ```
+
+### Update User Role
+
+- **URL:** `/api/users/{id}`
 - **Roles:** `ADMIN`
-- **Método:** `DELETE`
-- **Respuesta Exitosa:** `204 No Content`
+- **Method:** `PATCH`
+- **Request Body:**
+    ```json
+    {
+        "role": "new_role"
+    }
+    ```
+- **Successful Response:** `200 OK`
 
-## Seguridad
+### Delete User
 
-- Las contraseñas deben tener al menos 8 caracteres, incluir una letra mayúscula, un número y no contener espacios en blanco.
+- **URL:** `/api/users/{id}`
+- **Roles:** `ADMIN`
+- **Method:** `DELETE`
+- **Successful Response:** `204 No Content`
 
-## Estructura del Proyecto
+### Update Password
 
-- `src/main/java/jwtapi`: Código fuente principal.
-    - `controller`: Controladores REST.
-    - `dto`: Objetos de transferencia de datos.
-    - `entity`: Entidades JPA.
-    - `exception`: Clases de manejo de excepciones.
-    - `jwt`: Clases relacionadas con JWT.
-    - `repository`: Repositorios JPA.
-    - `service`: Servicios de negocio.
-    - `config`: Configuración de seguridad y otros.
-
-- `src/main/resources`: Recursos de la aplicación.
-    - `application.properties`: Archivo de configuración principal.
+- **URL:** `/api/users/password`
+- **Method:** `PATCH`
+- **Request Body:**
+    ```json
+    {
+        "oldPassword": "old_password",
+        "newPassword": "new_password"
+    }
+    ```
+- **Successful Response:**
+    ```json
+    {
+        "message": "Password updated successfully."
+    }
+    ```

@@ -1,6 +1,6 @@
-package jwtapi.config;
+package auth.config;
 
-import jwtapi.jwt.JwtAuthenticationFilter;
+import auth.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

@@ -13,7 +13,7 @@
     <groupId>jwtapi</groupId>
     <artifactId>jwt-api</artifactId>
     <version>1.0</version>
-    <name>jwt-api</name>
+    <name>jwt-auth-api</name>
     <description>jwt authentication rest api</description>
     <url/>
     <licenses>

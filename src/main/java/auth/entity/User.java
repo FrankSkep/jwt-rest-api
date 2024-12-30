@@ -1,4 +1,4 @@
-package jwtapi.entity;
+package auth.entity;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    Long id;
     @Basic
     @Column(nullable = false)
     String username;

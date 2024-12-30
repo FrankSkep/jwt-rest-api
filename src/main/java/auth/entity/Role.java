@@ -1,6 +1,7 @@
-package jwtapi.entity;
+package auth.entity;
 
 public enum Role {
     ADMIN,
+    MODERATOR,
     USER
 }

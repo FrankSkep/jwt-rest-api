@@ -1,4 +1,4 @@
-package jwtapi.jwt;
+package auth.jwt;
 
 import java.security.Key;
 import java.util.Date;

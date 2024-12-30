@@ -1,6 +1,6 @@
-package jwtapi.config;
+package auth.config;
 
-import jwtapi.repository.UserRepository;
+import auth.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

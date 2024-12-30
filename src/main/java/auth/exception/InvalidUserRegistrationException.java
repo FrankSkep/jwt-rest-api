@@ -1,4 +1,4 @@
-package jwtapi.exception;
+package auth.exception;
 
 public class InvalidUserRegistrationException extends RuntimeException {
     public InvalidUserRegistrationException(String message) {

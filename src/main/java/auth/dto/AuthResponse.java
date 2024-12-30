@@ -1,4 +1,4 @@
-package jwtapi.dto;
+package auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

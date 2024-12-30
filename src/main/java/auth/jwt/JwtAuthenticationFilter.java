@@ -1,8 +1,8 @@
-package jwtapi.jwt;
+package auth.jwt;
 
 import java.io.IOException;
 
-import jwtapi.exception.InvalidTokenException;
+import auth.exception.InvalidTokenException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
