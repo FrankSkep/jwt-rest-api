@@ -4,127 +4,98 @@ JwtAuthAPI is an authentication API based on JWT (JSON Web Tokens) built with Sp
 
 ## Requirements
 
-- Java 17 or higher
+- Java 21
 - Maven
-- MySQL (or any other compatible database)
+- PostgreSQL (or any other compatible database)
 
 ## Configuration
 
 1. Clone the repository:
-    ```sh
-    git clone https://github.com/FrankSkep/jwt-auth-api
-    cd jwt-auth-api
-    ```
+
+   ```sh
+   git clone https://github.com/FrankSkep/jwt-rest-api
+   cd jwt-rest-api
+   ```
 
 2. Create a `.env` file in `src/main/resources` with the following environment variables:
-    ```ini
-    DB_URL=jdbc:mysql://localhost:3306/your_database
-    DB_USERNAME=your_username
-    DB_PASSWORD=your_password
-    JWT_SECRET_KEY=your_secret_key
-    ```
+
+   ```ini
+   DB_URL=jdbc:postgresql://localhost:5432/your_database
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   JWT_SECRET_KEY=your_secret_key
+   ```
 
 3. Build and run the application:
-    ```sh
-    mvn clean install
-    mvn spring-boot:run
-    ```
+   ```sh
+   mvn clean install
+   mvn spring-boot:run
+   ```
 
 ## Endpoints
 
-### User Registration
+### Authentication
 
-- **URL:** `/api/auth/register`
-- **Method:** `POST`
-- **Request Body:**
-    ```json
-    {
-        "username": "username",
-        "password": "password",
-        "firstname": "firstname",
-        "lastname": "lastname",
-        "country": "country"
-    }
-    ```
-- **Successful Response:**
-    ```json
-    {
-        "token": "jwt_token"
-    }
-    ```
+| Method | Endpoint         | Description                  | Sample Valid Request Body |
+| ------ | ---------------- | ---------------------------- | ------------------------- |
+| POST   | /api/auth/signin | Log in and obtain JWT token. | [JSON](#signin)           |
+| POST   | /api/auth/signup | Register a new user.         | [JSON](#signup)           |
 
-### Login
+### Users
 
-- **URL:** `/api/auth/login`
-- **Method:** `POST`
-- **Request Body:**
-    ```json
-    {
-        "username": "username",
-        "password": "password"
-    }
-    ```
-- **Successful Response:**
-    ```json
-    {
-        "token": "jwt_token"
-    }
-    ```
+| Method | Endpoint            | Description                               | Sample Valid Request Body |
+| ------ | ------------------- | ----------------------------------------- | ------------------------- |
+| PUT    | /api/users          | Update the authenticated user's details.  | [JSON](#userupdate)       |
+| PATCH  | /api/users/{id}     | Update the role of a user (Admin only).   | [JSON](#roleupdate)       |
+| DELETE | /api/users          | Delete the authenticated user's account.  |                           |
+| DELETE | /api/users/{id}     | Delete a user by ID (Admin only).         |                           |
+| PATCH  | /api/users/password | Update the authenticated user's password. | [JSON](#passwordupdate)   |
 
-### Update User
+## Sample Valid JSON Request Bodies
 
-- **URL:** `/api/users`
-- **Method:** `PUT`
-- **Request Body:**
-    ```json
-    {
-        "username": "new_username",
-        "firstname": "new_firstname",
-        "lastname": "new_lastname",
-        "country": "new_country"
-    }
-    ```
-- **Successful Response:**
-    ```json
-    {
-        "message": "Data updated successfully."
-    }
-    ```
+##### <a id="signup">Sign Up -> /api/auth/signup</a>
 
-### Update User Role
+```json
+{
+  "username": "john_doe",
+  "password": "Password123",
+  "firstname": "John",
+  "lastname": "Doe",
+  "country": "USA"
+}
+```
 
-- **URL:** `/api/users/{id}`
-- **Roles:** `ADMIN`
-- **Method:** `PATCH`
-- **Request Body:**
-    ```json
-    {
-        "role": "new_role"
-    }
-    ```
-- **Successful Response:** `200 OK`
+##### <a id="signin">Log In -> /api/auth/signin</a>
 
-### Delete User
+```json
+{
+  "username": "john_doe",
+  "password": "Password123"
+}
+```
 
-- **URL:** `/api/users/{id}`
-- **Roles:** `ADMIN`
-- **Method:** `DELETE`
-- **Successful Response:** `204 No Content`
+##### <a id="userupdate">Update User -> /api/users</a>
 
-### Update Password
+```json
+{
+  "username": "john_doe_updated",
+  "firstname": "John",
+  "lastname": "Doe",
+  "country": "USA"
+}
+```
 
-- **URL:** `/api/users/password`
-- **Method:** `PATCH`
-- **Request Body:**
-    ```json
-    {
-        "oldPassword": "old_password",
-        "newPassword": "new_password"
-    }
-    ```
-- **Successful Response:**
-    ```json
-    {
-        "message": "Password updated successfully."
-    }
-    ```
+##### <a id="roleupdate">Update Role -> /api/users/{id}</a>
+
+```json
+"ROLE_NAME"
+```
+
+##### <a id="passwordupdate">Update Password -> /api/users/password</a>
+
+```json
+{
+  "oldPassword": "OldPassword123",
+  "newPassword": "NewPassword123"
+}
+```
