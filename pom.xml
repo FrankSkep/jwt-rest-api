@@ -11,8 +11,8 @@
     <groupId>com.fran</groupId>
     <artifactId>jwt-rest-api</artifactId>
     <version>1.0</version>
-    <name>JwtAuthenticationAPP</name>
-    <description>jwt authentication rest api</description>
+    <name>Jwt Authentication</name>
+    <description>Spring Boot REST API for authentication and user management using JWT (JSON Web Tokens).</description>
     <url/>
     <licenses>
         <license/>
@@ -98,6 +98,11 @@
             <scope>
                 runtime
             </scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
 

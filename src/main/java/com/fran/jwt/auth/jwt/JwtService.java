@@ -29,6 +29,11 @@ public class JwtService {
     }
 
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {
+        extraClaims.put("role", user.getAuthorities().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No role found"))
+                .getAuthority());
+        extraClaims.put("username", user.getUsername());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

@@ -4,62 +4,76 @@ import com.fran.jwt.auth.dto.PasswordRequest;
 import com.fran.jwt.auth.dto.UserRequest;
 import com.fran.jwt.auth.entity.Role;
 import com.fran.jwt.auth.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
+@Tag(name = "Users", description = "Operations related to user management")
 public class UserController {
 
     private final UserService userService;
 
-    @PutMapping
-    public ResponseEntity<UserRequest> updateUser(@RequestBody UserRequest userReq) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        userService.updateUser(userDetails.getUsername(), userReq);
-        return ResponseEntity.ok(userReq);
+    @Operation(summary = "Update user", description = "Updates a user's data by their username")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @PutMapping("/{username}")
+    public void updateUser(
+            @Parameter(description = "User's username") @PathVariable String username,
+            @RequestBody UserRequest user) {
+        userService.updateUser(username, user);
     }
 
-    @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> updateRole(@PathVariable Long id, @RequestBody Role role) {
+    @Operation(summary = "Update role", description = "Updates a user's role by their ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Role updated successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @PutMapping("/{id}/role")
+    public void updateRole(
+            @Parameter(description = "User's ID") @PathVariable Long id,
+            @RequestBody Role role) {
         userService.updateRole(id, role);
-        return ResponseEntity.ok("The " + role.name() + "role is assigned to the user with id " + id);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteMyUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        userService.deleteUser(userDetails.getUsername());
-        return ResponseEntity.noContent().build();
-    }
-
+    @Operation(summary = "Delete user by ID", description = "Deletes a user by their ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public void deleteUserById(@Parameter(description = "User's ID") @PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/password")
-    public ResponseEntity<String> updatePassword(@RequestBody PasswordRequest password) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        userService.updatePassword(userDetails.getUsername(), password);
-        return ResponseEntity.ok("Password updated successfully.");
+    @Operation(summary = "Delete user by username", description = "Deletes a user by their username")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @DeleteMapping("/by-username/{username}")
+    public void deleteUserByUsername(@Parameter(description = "User's username") @PathVariable String username) {
+        userService.deleteUser(username);
+    }
+
+    @Operation(summary = "Update password", description = "Updates a user's password")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Password updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Incorrect old password"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @PutMapping("/{username}/password")
+    public void updatePassword(
+            @Parameter(description = "User's username") @PathVariable String username,
+            @RequestBody PasswordRequest password) {
+        userService.updatePassword(username, password);
     }
 }

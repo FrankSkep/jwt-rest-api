@@ -1,14 +1,14 @@
-# Jwt Auth API
+# Jwt REST API
 
-JwtAuthAPI is an authentication API based on JWT (JSON Web Tokens) built with Spring Boot.
+JwtAuthAPI is a JWT (JSON Web Tokens) based authentication API built with Spring Boot.
 
 ## Requirements
 
 - Java 21
 - Maven
-- PostgreSQL (or any other compatible database)
+- PostgreSQL (or any compatible database)
 
-## Configuration
+## Setup
 
 1. Clone the repository:
 
@@ -28,74 +28,12 @@ JwtAuthAPI is an authentication API based on JWT (JSON Web Tokens) built with Sp
 
 3. Build and run the application:
    ```sh
-   mvn clean install
-   mvn spring-boot:run
+   ./mvnw clean install
+   ./mvnw spring-boot:run
    ```
 
-## Endpoints
+## API Documentation
 
-### Authentication
+All endpoints and their details are documented and available for interactive testing in Swagger UI:
 
-| Method | Endpoint         | Description                  | Sample Valid Request Body |
-| ------ | ---------------- | ---------------------------- | ------------------------- |
-| POST   | /api/auth/signin | Log in and obtain JWT token. | [JSON](#signin)           |
-| POST   | /api/auth/signup | Register a new user.         | [JSON](#signup)           |
-
-### Users
-
-| Method | Endpoint            | Description                               | Sample Valid Request Body |
-| ------ | ------------------- | ----------------------------------------- | ------------------------- |
-| PUT    | /api/users          | Update the authenticated user's details.  | [JSON](#userupdate)       |
-| PATCH  | /api/users/{id}     | Update the role of a user (Admin only).   | [JSON](#roleupdate)       |
-| DELETE | /api/users          | Delete the authenticated user's account.  |                           |
-| DELETE | /api/users/{id}     | Delete a user by ID (Admin only).         |                           |
-| PATCH  | /api/users/password | Update the authenticated user's password. | [JSON](#passwordupdate)   |
-
-## Sample Valid JSON Request Bodies
-
-##### <a id="signup">Sign Up -> /api/auth/signup</a>
-
-```json
-{
-  "username": "john_doe",
-  "password": "Password123",
-  "firstname": "John",
-  "lastname": "Doe",
-  "country": "USA"
-}
-```
-
-##### <a id="signin">Log In -> /api/auth/signin</a>
-
-```json
-{
-  "username": "john_doe",
-  "password": "Password123"
-}
-```
-
-##### <a id="userupdate">Update User -> /api/users</a>
-
-```json
-{
-  "username": "john_doe_updated",
-  "firstname": "John",
-  "lastname": "Doe",
-  "country": "USA"
-}
-```
-
-##### <a id="roleupdate">Update Role -> /api/users/{id}</a>
-
-```json
-"ROLE_NAME"
-```
-
-##### <a id="passwordupdate">Update Password -> /api/users/password</a>
-
-```json
-{
-  "oldPassword": "OldPassword123",
-  "newPassword": "NewPassword123"
-}
-```
+[http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
