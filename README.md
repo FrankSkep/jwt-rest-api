@@ -1,39 +1,61 @@
-# Jwt REST API
+# Jwt Authentication REST API
 
-JwtAuthAPI is a JWT (JSON Web Tokens) based authentication API built with Spring Boot.
+REST API developed with **Spring Boot** for user management and authentication using **JWT (JSON Web Tokens)**.
 
-## Requirements
+## Features
+
+- User registration and authentication
+- Role and permission management
+- JWT-based security
+- Protected and public endpoints
+- Interactive documentation with Swagger/OpenAPI
+- Integration with PostgreSQL database
+- Data validation and centralized exception handling
+
+## Technologies
 
 - Java 21
-- Maven
-- PostgreSQL (or any compatible database)
+- Spring Boot 3.2.8
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- JWT (jjwt)
+- Lombok
+- Swagger/OpenAPI
 
 ## Setup
 
-1. Clone the repository:
-
-   ```sh
-   git clone https://github.com/FrankSkep/jwt-rest-api
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/FrankSkep/jwt-rest-api.git
    cd jwt-rest-api
    ```
 
-2. Create a `.env` file in `src/main/resources` with the following environment variables:
-
-   ```ini
-   DB_URL=jdbc:postgresql://localhost:5432/your_database
-   DB_USERNAME=your_username
+2. **Set the environment variables in `src/main/resources/.env`:**
+   ```
+   DB_URL=jdbc:postgresql://localhost:5432/database_name
+   DB_USERNAME=your_user
    DB_PASSWORD=your_password
    JWT_SECRET_KEY=your_secret_key
    ```
 
-3. Build and run the application:
-   ```sh
-   ./mvnw clean install
+3. **Make sure PostgreSQL is running and the database is created.**
+
+4. **Install dependencies and run the application:**
+   ```bash
+   ./mvnw clean package -DskipTests
    ./mvnw spring-boot:run
    ```
 
-## API Documentation
+## Main Endpoints
 
-All endpoints and their details are documented and available for interactive testing in Swagger UI:
+- `POST /api/auth/register` — User registration
+- `POST /api/auth/login` — Authentication and JWT retrieval
+- `GET /api/users/me` — Authenticated user information
+- `PUT /api/users/{id}/role` — Update role (requires permissions)
+- `PUT /api/users/me/password` — Change password
 
-[http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
+## Documentation
+
+Access the interactive documentation at:
+`http://localhost:8080/swagger-ui.html`
