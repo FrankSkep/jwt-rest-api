@@ -1,0 +1,32 @@
+# Application Configuration
+spring:
+  application:
+    name: JwtAuthenticationAPI
+
+  # Load Environment Variables from .env file
+  config:
+    import: "optional:file:src/main/resources/.env[.properties]"
+
+  # Database Configuration
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  # Hibernate Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# Server Configuration
+server:
+  port: 8080
+
+# JWT Configuration
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+  expiration:
+    time: ${JWT_EXPIRATION_MS}

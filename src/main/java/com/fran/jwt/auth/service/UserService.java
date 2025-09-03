@@ -2,6 +2,7 @@ package com.fran.jwt.auth.service;
 
 import com.fran.jwt.auth.dto.PasswordRequest;
 import com.fran.jwt.auth.dto.UserRequest;
+import com.fran.jwt.auth.dto.UserResponse;
 import com.fran.jwt.auth.entity.Role;
 import com.fran.jwt.auth.entity.User;
 import com.fran.jwt.auth.exception.IncorrectPasswordException;
@@ -63,5 +64,17 @@ public class UserService {
             throw new IncorrectPasswordException("Old password does not match.");
         }
         userRepository.save(user);
+    }
+
+    public UserResponse getUserInfoByUsername(String username) {
+        User user = getByUsername(username);
+        return new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getLastname(),
+                user.getFirstname(),
+                user.getCountry(),
+                user.getRole()
+        );
     }
 }
