@@ -30,7 +30,6 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PutMapping("/{username}")
-    @PreAuthorize("hasRole('ADMIN')")
     public void updateUser(
             @Parameter(description = "User's username") @PathVariable String username,
             @RequestBody UserRequest user) {
