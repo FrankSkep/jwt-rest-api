@@ -1,5 +1,6 @@
 package com.fran.jwt.auth.jwt;
 
+import com.fran.jwt.auth.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -34,6 +35,10 @@ public class JwtService {
                 .orElseThrow(() -> new RuntimeException("No role found"))
                 .getAuthority());
         extraClaims.put("username", user.getUsername());
+        if (user instanceof User customUser) {
+            extraClaims.put("name", customUser.getFirstname() + " " + customUser.getLastname());
+            extraClaims.put("id", customUser.getId());
+        }
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

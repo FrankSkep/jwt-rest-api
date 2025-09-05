@@ -15,6 +15,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +32,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of(
+                            "http://localhost:5173"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+                    config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                    return config;
+                }))
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/api/auth/**").permitAll()
@@ -50,7 +61,6 @@ public class SecurityConfig {
                 .build();
     }
 
-    // Manejador de excepciones de autenticación
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, authException) -> {
@@ -59,7 +69,6 @@ public class SecurityConfig {
         };
     }
 
-    // Manejador de excepciones de acceso denegado
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return (request, response, accessDeniedException) -> {
